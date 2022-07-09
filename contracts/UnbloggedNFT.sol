@@ -114,7 +114,6 @@ contract UnbloggedNFT is ERC721A, Ownable {
             _exists(tokenId),
             "ERC721URIStorage: URI query for nonexistent token"
         );
-        string memory base = _baseURI();
 
         bytes memory m1 = abi.encodePacked(
             '{"name":"Unblogged Article #',
