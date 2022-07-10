@@ -50,11 +50,11 @@ contract UnbloggedNFT is ERC721A, Ownable {
     }
 
     /**
-     * @dev safeMint allows anyone to mint a token in this project.
+     * @dev mint allows anyone to mint a token in this project.
      * Any time a token is minted, a new row of metadata will be
      * dynamically inserted into the metadata table.
      */
-    function safeMint(
+    function mint(
         string memory title,
         string memory tag_1,
         string memory tag_2,
