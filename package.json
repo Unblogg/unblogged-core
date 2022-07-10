@@ -6,7 +6,9 @@
 		"scripts": {
 				"start": "npx hardhat node",
 				"test": "npx hardhat test",
-				"deploy:mumbai": "npx hardhat deploy --network rinkeby --tags PewCore",
+				"deploy:mumbai": "npx hardhat deploy --tags UnbloggedNFT --network mumbai",
+				"mint:mumbai": "npx hardhat run ./scripts/mint-unbloggedNFT.ts --network mumbai",
+				"getMetadataURI:mumbai": "npx hardhat run ./scripts/getMetadataURI.ts --network mumbai",
 				"deploy:matic": "npx hardhat deploy --network mainnet --tags PewCore",
 				"deploy:optimism": "npx hardhat --network optimism_mainnet etherscan-verify",
 				"verify:optimisticKovan": "npx hardhat --network optimisticKovan etherscan-verify",
