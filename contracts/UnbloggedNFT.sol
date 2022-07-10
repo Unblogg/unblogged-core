@@ -9,6 +9,7 @@ import "./ITablelandTables.sol";
 import "./Base64.sol";
 
 contract UnbloggedNFT is ERC721A, Ownable {
+    using Strings for uint256;
     // Our will be pulled from the network
     string private _baseURIString =
         "https://testnet.tableland.network/query?s=";
@@ -117,9 +118,9 @@ contract UnbloggedNFT is ERC721A, Ownable {
 
         bytes memory m1 = abi.encodePacked(
             '{"name":"Unblogged Article #',
-            tokenId,
+            Strings.toString(tokenId),
             '", "description":"Unblogged Article #', //TODO: Link to article
-            tokenId,
+            Strings.toString(tokenId),
             '", "image": "',
             _defaultNFTImage,
             '"}'
