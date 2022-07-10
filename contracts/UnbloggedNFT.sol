@@ -19,6 +19,7 @@ contract UnbloggedNFT is ERC721A, Ownable {
     uint256 private _metadataTableId;
     string private _tablePrefix = "unblogged_hackfs_";
     string private _defaultNFTImage;
+    mapping(string => bool) private cidMinted;
 
     // Called only when the smart contract is created
     constructor(address registry, string memory defaultImage)
@@ -62,6 +63,10 @@ contract UnbloggedNFT is ERC721A, Ownable {
         string memory tag_3,
         string memory ipfsCid
     ) public {
+        require(
+            !cidMinted[ipfsCid],
+            "UnbloggedNFT: CID has already been minted!"
+        );
         uint256 _nextTokenId;
         /* Any table updates will go here */
         _tableland.runSQL(
@@ -88,6 +93,7 @@ contract UnbloggedNFT is ERC721A, Ownable {
             )
         );
         _safeMint(msg.sender, 1);
+        cidMinted[ipfsCid] = true;
     }
 
     function _baseURI() internal view override returns (string memory) {
