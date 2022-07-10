@@ -49,44 +49,44 @@ contract UnbloggedNFT is ERC721A, Ownable {
         _defaultNFTImage = defaultImage;
     }
 
-    // /**
-    //  * @dev safeMint allows anyone to mint a token in this project.
-    //  * Any time a token is minted, a new row of metadata will be
-    //  * dynamically inserted into the metadata table.
-    //  */
-    // function safeMint(
-    //     string memory title,
-    //     string memory tag_1,
-    //     string memory tag_2,
-    //     string memory tag_3,
-    //     string memory ipfsCid
-    // ) public {
-    //     uint256 _nextTokenId;
-    //     /* Any table updates will go here */
-    //     _tableland.runSQL(
-    //         address(this),
-    //         _metadataTableId,
-    //         string.concat(
-    //             "INSERT INTO ",
-    //             _metadataTable,
-    //             " (articleId, title, tag_1, tag_2, tag_3, author, ipfsCid) VALUES (",
-    //             Strings.toString(_nextTokenId),
-    //             ", ",
-    //             title,
-    //             ", ",
-    //             tag_1,
-    //             ", ",
-    //             tag_2,
-    //             ", ",
-    //             tag_3,
-    //             ", ",
-    //             string(abi.encodePacked(msg.sender)),
-    //             ", ",
-    //             ipfsCid
-    //         )
-    //     );
-    //     _safeMint(msg.sender, 1);
-    // }
+    /**
+     * @dev safeMint allows anyone to mint a token in this project.
+     * Any time a token is minted, a new row of metadata will be
+     * dynamically inserted into the metadata table.
+     */
+    function safeMint(
+        string memory title,
+        string memory tag_1,
+        string memory tag_2,
+        string memory tag_3,
+        string memory ipfsCid
+    ) public {
+        uint256 _nextTokenId;
+        /* Any table updates will go here */
+        _tableland.runSQL(
+            address(this),
+            _metadataTableId,
+            string.concat(
+                "INSERT INTO ",
+                _metadataTable,
+                " (articleId, title, tag_1, tag_2, tag_3, author, ipfsCid) VALUES (",
+                Strings.toString(_nextTokenId),
+                ", ",
+                title,
+                ", ",
+                tag_1,
+                ", ",
+                tag_2,
+                ", ",
+                tag_3,
+                ", ",
+                string(abi.encodePacked(msg.sender)),
+                ", ",
+                ipfsCid
+            )
+        );
+        _safeMint(msg.sender, 1);
+    }
 
     function _baseURI() internal view override returns (string memory) {
         return _baseURIString;
