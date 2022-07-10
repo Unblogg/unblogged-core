@@ -72,18 +72,19 @@ contract UnbloggedNFT is ERC721A, Ownable {
                 _metadataTable,
                 " (articleId, title, tag_1, tag_2, tag_3, author, ipfsCid) VALUES (",
                 Strings.toString(_nextTokenId),
-                ", ",
+                ", '",
                 title,
-                ", ",
+                "', '",
                 tag_1,
-                ", ",
+                "', '",
                 tag_2,
-                ", ",
+                "', '",
                 tag_3,
-                ", ",
-                string(abi.encodePacked(msg.sender)),
-                ", ",
-                ipfsCid
+                "', '",
+                Strings.toHexString(uint256(uint160(msg.sender)), 20),
+                "', '",
+                ipfsCid,
+                "')"
             )
         );
         _safeMint(msg.sender, 1);
@@ -136,5 +137,24 @@ contract UnbloggedNFT is ERC721A, Ownable {
 
         // /* We will give token viewers a way to get at our table metadata */
         // return;
+    }
+
+    /**
+     * @notice Get the URL String of the tableland query
+     */
+    function tablelandURI(uint256 tokenId) public view returns (string memory) {
+        require(
+            _exists(tokenId),
+            "ERC721URIStorage: URI query for nonexistent token"
+        );
+        string memory base = _baseURI();
+        string memory query = string.concat(
+            "SELECT%20*%20FROM%20",
+            _metadataTable,
+            "%20WHERE%20articleId=",
+            Strings.toString(tokenId)
+        );
+
+        return string.concat(base, query);
     }
 }
