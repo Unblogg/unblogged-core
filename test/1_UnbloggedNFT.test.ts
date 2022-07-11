@@ -1,32 +1,11 @@
 import "dotenv/config";
 
-import { Blob, File, NFTStorage } from "nft.storage";
-
-import { BigNumber } from "ethers";
 import MarkdownFileData from "../types/MarkdownFileData";
 import { UnbloggedNFT } from "../typechain/contracts/UnbloggedNFT";
 import { expect } from "chai";
-import getValidMarkdownFilename from "../utils/getValidMarkdownFilename";
+import { pinMarkdown } from "../utils/NFTStorageService";
 
 const { ethers, deployments } = require("hardhat");
-
-const NFT_STORAGE_TOKEN: string = process.env.NFT_STORAGE_TOKEN
-  ? process.env.NFT_STORAGE_TOKEN
-  : "your-api-token";
-const client = new NFTStorage({ token: NFT_STORAGE_TOKEN });
-const SAMPLE_TEXT = "Hello World";
-let cid: string;
-
-const storeMarkdown = async ({
-  filename,
-  markdown,
-}: MarkdownFileData): Promise<string> => {
-  const file = new File(
-    [Buffer.from(markdown)],
-    getValidMarkdownFilename(filename)
-  );
-  return await client.storeBlob(file);
-};
 
 describe("UnbloggedNFT", function () {
   let owner: any;
@@ -43,16 +22,28 @@ describe("UnbloggedNFT", function () {
     // Publish Markdown
     const markdownData: MarkdownFileData = {
       filename: "test.md",
-      markdown: SAMPLE_TEXT,
+      markdown: "Hello World",
     };
-    cid = await storeMarkdown(markdownData);
-    console.log("🚀 | cid", cid);
+    this.cid = await pinMarkdown(markdownData);
+    console.log("🚀 | cid", this.cid);
   });
 
   it("Should Mint", async function () {
-    await unbloggedNFT.mint("Test Article", "Tag 1", "Tag 2", "Tag 3", cid);
+    await unbloggedNFT.mint(
+      "Test Article",
+      "Tag 1",
+      "Tag 2",
+      "Tag 3",
+      this.cid
+    );
 
     expect(await unbloggedNFT.balanceOf(owner.address)).to.equal(1);
+  });
+
+  it("Should Not Double Mint", async function () {
+    await expect(
+      unbloggedNFT.mint("Test Article", "Tag 1", "Tag 2", "Tag 3", this.cid)
+    ).to.be.revertedWith("UnbloggedNFT: CID has already been minted!");
   });
 
   it("Should return metadataURI", async function () {

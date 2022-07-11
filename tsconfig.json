@@ -7,10 +7,10 @@
     "sourceMap": true,
     "outDir": "./dist",
     "strict": true,
-    "rootDirs": ["./src", "./scripts", "./test", "./deploy"],
+    "rootDirs": ["./src", "./scripts", "./test", "./deploy", "./types"],
     "esModuleInterop": true
   },
   "exclude": ["dist", "node_modules", "./**/*.js"],
-  "include": ["./test", "./src", "./scripts", "./deploy", "./typechain/**/*"],
+  "include": ["./test", "./src", "./scripts", "./deploy", "./typechain/**/*","./types"],
   "files": ["./hardhat.config.ts"]
 }
