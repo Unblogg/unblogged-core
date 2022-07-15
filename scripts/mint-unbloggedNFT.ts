@@ -11,7 +11,7 @@ const NFT_STORAGE_TOKEN: string = process.env.NFT_STORAGE_TOKEN
   : "your-api-token";
 
 const client = new NFTStorage({ token: NFT_STORAGE_TOKEN });
-const SAMPLE_TEXT = "Hello World";
+const SAMPLE_TEXT = "Hello World 2";
 let cid;
 
 const storeMarkdown = async ({
@@ -40,7 +40,7 @@ async function main() {
   console.log("🚀 | cid", cid);
 
   let tx = await (
-    await unbloggedNFT.mint("Test Article", "Tag 1", "Tag 2", "Tag 3", cid)
+    await unbloggedNFT.mint("Test Article 2", "Tag 3", "Tag 4", "Tag 5", cid)
   ).wait();
 }
 
