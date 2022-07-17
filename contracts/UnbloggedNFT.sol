@@ -36,7 +36,7 @@ contract UnbloggedNFT is ERC721A, Ownable {
                 "CREATE TABLE ",
                 _tablePrefix,
                 Strings.toString(block.chainid),
-                " (articleId int, title text, tag_1 text, tag_2 text, tag_3 text, author text, ipfsCid text);"
+                " (articleId int, title text, tag_1 text, tag_2 text, tag_3 text, author text, ipfsCid text, timestamp int);"
             )
         );
 
@@ -89,6 +89,8 @@ contract UnbloggedNFT is ERC721A, Ownable {
                 Strings.toHexString(uint256(uint160(msg.sender)), 20),
                 "', '",
                 ipfsCid,
+                "', '",
+                Strings.toString(block.timestamp),
                 "')"
             )
         );
