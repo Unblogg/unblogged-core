@@ -67,7 +67,7 @@ contract UnbloggedNFT is ERC721A, Ownable {
             !cidMinted[ipfsCid],
             "UnbloggedNFT: CID has already been minted!"
         );
-        uint256 _nextTokenId;
+        uint256 tokenId = _nextTokenId();
         /* Any table updates will go here */
         _tableland.runSQL(
             address(this),
@@ -75,8 +75,8 @@ contract UnbloggedNFT is ERC721A, Ownable {
             string.concat(
                 "INSERT INTO ",
                 _metadataTable,
-                " (articleId, title, tag_1, tag_2, tag_3, author, ipfsCid) VALUES (",
-                Strings.toString(_nextTokenId),
+                " (articleId, title, tag_1, tag_2, tag_3, author, ipfsCid, timestamp) VALUES (",
+                Strings.toString(tokenId),
                 ", '",
                 title,
                 "', '",
