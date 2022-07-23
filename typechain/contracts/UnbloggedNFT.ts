@@ -49,6 +49,7 @@ export interface UnbloggedNFTInterface extends utils.Interface {
     "totalSupply()": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
+    "update(uint256,string)": FunctionFragment;
   };
 
   getFunction(
@@ -73,6 +74,7 @@ export interface UnbloggedNFTInterface extends utils.Interface {
       | "totalSupply"
       | "transferFrom"
       | "transferOwnership"
+      | "update"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -165,6 +167,10 @@ export interface UnbloggedNFTInterface extends utils.Interface {
     functionFragment: "transferOwnership",
     values: [PromiseOrValue<string>]
   ): string;
+  encodeFunctionData(
+    functionFragment: "update",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
+  ): string;
 
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
@@ -222,6 +228,7 @@ export interface UnbloggedNFTInterface extends utils.Interface {
     functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "update", data: BytesLike): Result;
 
   events: {
     "Approval(address,address,uint256)": EventFragment;
@@ -424,6 +431,12 @@ export interface UnbloggedNFT extends BaseContract {
       newOwner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    update(
+      tokenId: PromiseOrValue<BigNumberish>,
+      ipfsCid: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
   };
 
   approve(
@@ -524,6 +537,12 @@ export interface UnbloggedNFT extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  update(
+    tokenId: PromiseOrValue<BigNumberish>,
+    ipfsCid: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   callStatic: {
     approve(
       to: PromiseOrValue<string>,
@@ -618,6 +637,12 @@ export interface UnbloggedNFT extends BaseContract {
 
     transferOwnership(
       newOwner: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    update(
+      tokenId: PromiseOrValue<BigNumberish>,
+      ipfsCid: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
   };
@@ -777,6 +802,12 @@ export interface UnbloggedNFT extends BaseContract {
       newOwner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
+
+    update(
+      tokenId: PromiseOrValue<BigNumberish>,
+      ipfsCid: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -875,6 +906,12 @@ export interface UnbloggedNFT extends BaseContract {
 
     transferOwnership(
       newOwner: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    update(
+      tokenId: PromiseOrValue<BigNumberish>,
+      ipfsCid: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
   };

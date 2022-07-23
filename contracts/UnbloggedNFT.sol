@@ -98,6 +98,38 @@ contract UnbloggedNFT is ERC721A, Ownable {
         cidMinted[ipfsCid] = true;
     }
 
+    /**
+     * @dev Allows owner of the token to update their ipfs cid.
+     * Any time a token is minted, a new row of metadata will be
+     * dynamically inserted into the metadata table.
+     */
+    function update(uint256 tokenId, string memory ipfsCid) public {
+        require(
+            !cidMinted[ipfsCid],
+            "UnbloggedNFT: CID has already been minted!"
+        );
+
+        require(
+            ownerOf(tokenId) == msg.sender,
+            "UnbloggedNFT: Only owner can update!"
+        );
+        /* Any table updates will go here */
+        _tableland.runSQL(
+            address(this),
+            _metadataTableId,
+            string.concat(
+                "UPDATE ",
+                _metadataTable,
+                " SET ipfsCid = '",
+                ipfsCid,
+                "' WHERE articleId = ",
+                Strings.toString(tokenId),
+                ";"
+            )
+        );
+        cidMinted[ipfsCid] = true;
+    }
+
     function _baseURI() internal view override returns (string memory) {
         return _baseURIString;
     }

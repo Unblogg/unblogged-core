@@ -90,15 +90,7 @@ async function main() {
     )
   ).wait();
 
-  tx = await (
-    await unbloggedNFT.mint(
-      "Test Article 4",
-      "Whistleblowing",
-      "Technology",
-      "United States",
-      cid_4
-    )
-  ).wait();
+  tx = await (await unbloggedNFT.update(2, "update success!")).wait();
 }
 
 main()
